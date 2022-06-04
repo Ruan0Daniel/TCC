@@ -202,6 +202,20 @@ $login = $_SESSION['usuario'];
 			border-radius: 12px;
 		}
 		
+		.trocar
+		{ 
+			background-color:#006fff;
+			height: 27px;
+			border: none;
+			outline: 0;
+			cursor: pointer;
+			width: 62px;
+			margin: 0 auto;
+			text-align: center;
+			font-weight: bold;
+			border-radius: 12px;
+		}
+		
 </style>
 </head>
 
@@ -474,14 +488,14 @@ $login = $_SESSION['usuario'];
                                     </div>
                                     <div class="ms-auto">
                                         <div class="dl">
-											<form name="organizador" action="cadastrar.php" method="POST">
-												<select name='options' class="form-select shadow-none" onchange="this.form.submit()">
-													<option value="0">Monthly</option>
-													<option value="1">Daily</option>
-													<option value="2">Weekly</option>
-													<option value="3">Yearly</option>
+											
+												<select name='options' class="form-select shadow-none" onchange="location.href=this.value">
+													<option value="">Filtrar</option>
+													<option value="pendentes.php?filtro=1">Pendentes</option>
+													<option value="pendentes.php?filtro=2">Orçados</option>
+													<option value="pendentes.php?filtro=3">Todos</option>
 												</select>
-											</form>
+											
                                         </div>
                                     </div>
                                 </div>
@@ -495,7 +509,8 @@ $login = $_SESSION['usuario'];
                                             <th class="border-top-0">OS</th>
 											<th class="border-top-0">Nome</th>
                                             <th class="border-top-0">Equipamento</th>		
-											<th class="border-top-0">Estado</th>												
+											<th class="border-top-0">Estado</th>
+											<th class="border-top-0">Telefone</th>												
 											<th class="border-top-0">Ações</th>
 											
                                         </tr>
@@ -506,212 +521,905 @@ $login = $_SESSION['usuario'];
 										
 									<?php
 									
-									// Verificar se está sendo passado na URL a página atual, se não atribui 1
-									$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
-									
-									
-									//Verificar a pagina anterior e posterior
-									$pagina_anterior = $pagina - 1;
-									$pagina_posterior = $pagina + 1;
-									
-									// Define a quantidade de registros por páginas
-									$quantidade_pagina = 10;			
-									
-									$ordens_servico = "SELECT * FROM os where estado='pendente'";
-									$resultado_os = mysqli_query($conexao, $ordens_servico);
-									
-									// contar o total de registros
-									$total_registros = mysqli_num_rows($resultado_os);
-									
-									// calcular o número páginas necessárias para apresentar os registros
-									$num_paginas = ceil($total_registros/$quantidade_pagina);
-									
-									//calcular o início da visualização
-									$inicio = ($quantidade_pagina * $pagina) - $quantidade_pagina;
-									
-									
-									$ordens_servico = "SELECT * FROM os where estado='pendente' limit $inicio, $quantidade_pagina ";
-									$resultado_os = mysqli_query($conexao, $ordens_servico);
-									while($exibir = mysqli_fetch_assoc($resultado_os))
+									if(isset($_GET["filtro"]))
 									{
+										$option = isset($_GET['filtro']) ? $_GET['filtro'] : "";
 										
-										echo"<tr align='center'>";
-										
-											echo"<td>";
-												echo" ".$exibir['os'];	
-											echo"</td>";
-										
-											echo"<td>";
-													echo" <div class='m-r-10'> ";
-														echo" ".$exibir['nome'];	
-													echo"</div>";
-											echo"</td>";
-										
-											echo"<td>";
-												echo" ".$exibir['tipo'];	
-											echo"</td>";
-											
-											$os = $exibir['os'];
-											$tipo = $exibir['tipo'];
-											$estado = $exibir['estado'];
-											
-											echo"<td>";
-												echo$estado;
-											echo"</td>";
-											
-											echo"<td>";
-											
-												echo"<table>";
-													echo"<tr>";
-														
-														
-														echo"<td>";
-															switch($exibir['tipo'])
-															{
-																case 'notebook':
-																	echo"<form action='editar_os_notebook.php' method='POST'>";	
-																		echo'<input type="hidden" name="tipo" value="editar">';
-																		echo'<input type="hidden" name="os"';
-																		echo"value='$os'>";																									
-																		echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
-																	echo"</form>";
-																	break;
-																	
-																case 'pc':
-																	echo"<form action='editar_os_pc.php' method='POST'>";	
-																		echo'<input type="hidden" name="tipo" value="editar">';
-																		echo'<input type="hidden" name="os"';
-																		echo"value='$os'>";																									
-																		echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
-																	echo"</form>";
-																	break;
-																	
-																case 'macbook':
-																	echo"<form action='editar_os_macbook.php' method='POST'>";	
-																		echo'<input type="hidden" name="tipo" value="editar">';
-																		echo'<input type="hidden" name="os"';
-																		echo"value='$os'>";																									
-																		echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
-																	echo"</form>";
-																	break;
-																	
-																case 'imac':
-																	echo"<form action='editar_os_imac.php' method='POST'>";	
-																		echo'<input type="hidden" name="tipo" value="editar">';
-																		echo'<input type="hidden" name="os"';
-																		echo"value='$os'>";																									
-																		echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
-																	echo"</form>";
-																	break;	
-															}
-														echo"</td>";
-														
-														echo"<td>";
-															echo"<form action='cadastrar.php' method='POST'>";	
-																echo'<input type="hidden" name="tipo" value="aprovar_os">';
-																
-																echo'<input type="hidden" name="os"';
-																echo"value='$os'>";
-																
-																echo" <input class='aprovar' type='submit' name='aprovar' value='Aprovar'>";
-															echo"</form>";
-														echo"</td>";
-														
-														echo"<td>";
-															echo"<form action='cadastrar.php' method='POST'>";	
-																echo'<input type="hidden" name="tipo" value="finalizar_os">';
-																
-																echo'<input type="hidden" name="os"';
-																echo"value='$os'>";
-																
-																echo" <input class='finalizar' type='submit' name='finalizar' value='Fechar'>";
-															echo"</form>";
-														echo"</td>";
-														
-														echo"<td>";
-															echo"<form action='gerar_pdf.php' method='POST'>";	
-																echo'<input type="hidden" name="pdf" value="orcamento">';
-																
-																echo'<input type="hidden" name="os"';
-																echo"value='$os'>";
-																
-																echo'<input type="hidden" name="equipamento"';
-																echo"value='$tipo'>";
-																
-																
-																echo" <input class='pdf' type='submit' name='finalizar' value='PDF'>";
-															echo"</form>";
-														echo"</td>";
-														
-														
-													echo"</tr>";	
-												echo"</table>";								
-											echo"</td>";
-										echo"</tr>";
-									}
-									?>	
-									
-                                    </tbody>
-									
-                                </table>
-                            </div>
-                        </div>
-						
-						<table align="center">
-								<tr>
-									<td align='center'>
-										<nav>
-											<ul class="pagination">
-												<li>			
-													<?php
-														if($pagina_anterior != 0){ ?>
-															<a href="pendentes.php?pagina=<?php echo $pagina_anterior; ?>" aria-label="Previous">
-																<span aria-hidden="true">&laquo;</span>
-															</a>
-													<?php }else{ ?>
-														<span aria-hidden="true">&laquo;</span>
-													<?php }  ?>
-												</li>
+										switch($option)
+										{
+											case 1:
+												 // Verificar se está sendo passado na URL a página atual, se não atribui 1
+												$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 												
-												<?php 
-													for($i = 1; $i < $num_paginas + 1; $i++)
-													{ 
-														if($i == $pagina)
-														{ 
-															echo"<li>";
-																echo"<a href=pendentes.php?pagina=$i>";
-																	echo"<b>";
-																		echo $i;
-																	echo"</b>";
-																echo"</a>";
-															echo"</li>";		
-														}
-														else
-														{
-															echo"<li>";
-																echo"<a href=pendentes.php?pagina=$i>";
-																	echo $i;
-																echo"</a>";
-															echo"</li>";	
-														}		
-													} 
-												?>
-									
-												<li>
-													<?php
-														if($pagina_posterior <= $num_paginas){ ?>
-															<a href="pendentes.php?pagina=<?php echo $pagina_posterior; ?>" aria-label="Previous">
-																<span aria-hidden="true">&raquo;</span>
-															</a>
-														<?php }else{ ?>
-															<span aria-hidden="true">&raquo;</span>
-													<?php }  ?>
-												</li>
-											</ul>
-										</nav>
-									</td>
-								</tr>
-							</table>
+												
+												//Verificar a pagina anterior e posterior
+												$pagina_anterior = $pagina - 1;
+												$pagina_posterior = $pagina + 1;
+												
+												// Define a quantidade de registros por páginas
+												$quantidade_pagina = 10;			
+												
+												$ordens_servico = "SELECT * FROM os where estado='pendente'";
+												$resultado_os = mysqli_query($conexao, $ordens_servico);
+												
+												// contar o total de registros
+												$total_registros = mysqli_num_rows($resultado_os);
+												
+												// calcular o número páginas necessárias para apresentar os registros
+												$num_paginas = ceil($total_registros/$quantidade_pagina);
+												
+												//calcular o início da visualização
+												$inicio = ($quantidade_pagina * $pagina) - $quantidade_pagina;
+												
+												
+												$ordens_servico = "SELECT * FROM os where estado='pendente' order by os desc limit $inicio, $quantidade_pagina ";
+												$resultado_os = mysqli_query($conexao, $ordens_servico);
+												while($exibir = mysqli_fetch_assoc($resultado_os))
+												{
+													
+													echo"<tr align='center'>";
+													
+														echo"<td>";
+															echo" ".$exibir['os'];	
+														echo"</td>";
+													
+														echo"<td>";
+																echo" <div class='m-r-10'> ";
+																	echo" ".$exibir['nome'];	
+																echo"</div>";
+														echo"</td>";
+													
+														echo"<td>";
+															echo" ".$exibir['tipo'];	
+														echo"</td>";
+														
+														$os = $exibir['os'];
+														$telefone = $exibir['telefone'];
+														$tipo = $exibir['tipo'];
+														$estado = $exibir['estado'];
+														
+														echo"<td>";
+															echo$estado;
+														echo"</td>";
+														
+														echo"<td>";
+															echo$telefone;
+														echo"</td>";
+														
+														echo"<td>";
+														
+															echo"<table>";
+																echo"<tr>";
+																	
+																	
+																	echo"<td>";
+																		switch($exibir['tipo'])
+																		{
+																			case 'notebook':
+																				echo"<form action='editar_os_notebook.php' method='POST'>";	
+																					echo'<input type="hidden" name="tipo" value="editar">';
+																					echo'<input type="hidden" name="os"';
+																					echo"value='$os'>";																									
+																					echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																				echo"</form>";
+																				break;
+																				
+																			case 'pc':
+																				echo"<form action='editar_os_pc.php' method='POST'>";	
+																					echo'<input type="hidden" name="tipo" value="editar">';
+																					echo'<input type="hidden" name="os"';
+																					echo"value='$os'>";																									
+																					echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																				echo"</form>";
+																				break;
+																				
+																			case 'macbook':
+																				echo"<form action='editar_os_macbook.php' method='POST'>";	
+																					echo'<input type="hidden" name="tipo" value="editar">';
+																					echo'<input type="hidden" name="os"';
+																					echo"value='$os'>";																									
+																					echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																				echo"</form>";
+																				break;
+																				
+																			case 'imac':
+																				echo"<form action='editar_os_imac.php' method='POST'>";	
+																					echo'<input type="hidden" name="tipo" value="editar">';
+																					echo'<input type="hidden" name="os"';
+																					echo"value='$os'>";																									
+																					echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																				echo"</form>";
+																				break;	
+																		}
+																	echo"</td>";
+																	
+																	echo"<td>";
+																		echo"<form action='cadastrar.php' method='POST'>";	
+																			echo'<input type="hidden" name="tipo" value="aprovar_os">';
+																			
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";
+																			
+																			echo" <input class='aprovar' type='submit' name='aprovar' value='Aprovar'>";
+																		echo"</form>";
+																	echo"</td>";
+																	
+																	echo"<td>";
+																		echo"<form action='cadastrar.php' method='POST'>";	
+																			echo'<input type="hidden" name="tipo" value="finalizar_os">';
+																			
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";
+																			
+																			echo" <input class='finalizar' type='submit' name='finalizar' value='Fechar'>";
+																		echo"</form>";
+																	echo"</td>";
+																	
+																	echo"<td>";
+																		echo"<form action='gerar_pdf.php' method='POST' target='_blank'>";	
+																			echo'<input type="hidden" name="pdf" value="orcamento">';
+																			
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";
+																			
+																			echo'<input type="hidden" name="equipamento"';
+																			echo"value='$tipo'>";
+																			
+																			
+																			echo" <input class='pdf' type='submit' name='finalizar' value='PDF'>";
+																		echo"</form>";
+																	echo"</td>";
+																	
+																	echo"<td>";
+																		echo"<form action='cadastrar.php' method='POST'>";	
+																			echo'<input type="hidden" name="tipo" value="trocar">';
+																			
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";
+																			
+																			echo'<input type="hidden" name="estado"';
+																			echo"value='$estado'>";
+																			
+																			echo" <input class='trocar' type='submit' value='Trocar'>";
+																		echo"</form>";
+																	echo"</td>";
+																		
+																echo"</tr>";	
+															echo"</table>";								
+														echo"</td>";
+													echo"</tr>";
+												}?>
+
+																<table align="center">
+																	<tr>
+																		<td align='center'>
+																			<nav>
+																				<ul class="pagination">
+																					<li>			
+																						<?php
+																							if($pagina_anterior != 0){ ?>
+																								<a href="pendentes.php?filtro=1&pagina=<?php echo $pagina_anterior; ?>" aria-label="Previous">
+																									<span aria-hidden="true">&laquo;</span>
+																								</a>
+																						<?php }else{ ?>
+																							<span aria-hidden="true">&laquo;</span>
+																						<?php }  ?>
+																					</li>
+																					
+																					<?php 
+																						for($i = 1; $i < $num_paginas + 1; $i++)
+																						{ 
+																							if($i == $pagina)
+																							{ 
+																								echo"<li>";
+																									echo"<a href=pendentes.php?filtro=1&pagina=$i>";
+																										echo"<b>";
+																											echo $i;
+																										echo"</b>";
+																									echo"</a>";
+																								echo"</li>";		
+																							}
+																							else
+																							{
+																								echo"<li>";
+																									echo"<a href=pendentes.php?filtro=1&pagina=$i>";
+																										echo $i;
+																									echo"</a>";
+																								echo"</li>";	
+																							}		
+																						} 
+																					?>
+																		
+																					<li>
+																						<?php
+																							if($pagina_posterior <= $num_paginas){ ?>
+																								<a href="pendentes.php?filtro=1&pagina=<?php echo $pagina_posterior; ?>" aria-label="Previous">
+																									<span aria-hidden="true">&raquo;</span>
+																								</a>
+																							<?php }else{ ?>
+																								<span aria-hidden="true">&raquo;</span>
+																						<?php }  ?>
+																					</li>
+																				</ul>
+																			</nav>
+																		</td>
+																	</tr>
+																</table>  
+														<?php	
+												break;
+												
+											case 2:
+												// Verificar se está sendo passado na URL a página atual, se não atribui 1
+												$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
+												
+												
+												//Verificar a pagina anterior e posterior
+												$pagina_anterior = $pagina - 1;
+												$pagina_posterior = $pagina + 1;
+												
+												// Define a quantidade de registros por páginas
+												$quantidade_pagina = 10;			
+												
+												$ordens_servico = "SELECT * FROM os where estado='aguardando'";
+												$resultado_os = mysqli_query($conexao, $ordens_servico);
+												
+												// contar o total de registros
+												$total_registros = mysqli_num_rows($resultado_os);
+												
+												// calcular o número páginas necessárias para apresentar os registros
+												$num_paginas = ceil($total_registros/$quantidade_pagina);
+												
+												//calcular o início da visualização
+												$inicio = ($quantidade_pagina * $pagina) - $quantidade_pagina;
+												
+												
+												$ordens_servico = "SELECT * FROM os where estado='aguardando' order by os desc limit $inicio, $quantidade_pagina ";
+												$resultado_os = mysqli_query($conexao, $ordens_servico);
+												while($exibir = mysqli_fetch_assoc($resultado_os))
+												{
+													
+													echo"<tr align='center'>";
+													
+														echo"<td>";
+															echo" ".$exibir['os'];	
+														echo"</td>";
+													
+														echo"<td>";
+																echo" <div class='m-r-10'> ";
+																	echo" ".$exibir['nome'];	
+																echo"</div>";
+														echo"</td>";
+													
+														echo"<td>";
+															echo" ".$exibir['tipo'];	
+														echo"</td>";
+														
+														$os = $exibir['os'];
+														$telefone = $exibir['telefone'];
+														$tipo = $exibir['tipo'];
+														$estado = $exibir['estado'];
+														
+														echo"<td>";
+															echo$estado;
+														echo"</td>";
+														
+														echo"<td>";
+															echo$telefone;
+														echo"</td>";
+														
+														echo"<td>";
+														
+															echo"<table>";
+																echo"<tr>";
+																	
+																	
+																	echo"<td>";
+																		switch($exibir['tipo'])
+																		{
+																			case 'notebook':
+																				echo"<form action='editar_os_notebook.php' method='POST'>";	
+																					echo'<input type="hidden" name="tipo" value="editar">';
+																					echo'<input type="hidden" name="os"';
+																					echo"value='$os'>";																									
+																					echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																				echo"</form>";
+																				break;
+																				
+																			case 'pc':
+																				echo"<form action='editar_os_pc.php' method='POST'>";	
+																					echo'<input type="hidden" name="tipo" value="editar">';
+																					echo'<input type="hidden" name="os"';
+																					echo"value='$os'>";																									
+																					echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																				echo"</form>";
+																				break;
+																				
+																			case 'macbook':
+																				echo"<form action='editar_os_macbook.php' method='POST'>";	
+																					echo'<input type="hidden" name="tipo" value="editar">';
+																					echo'<input type="hidden" name="os"';
+																					echo"value='$os'>";																									
+																					echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																				echo"</form>";
+																				break;
+																				
+																			case 'imac':
+																				echo"<form action='editar_os_imac.php' method='POST'>";	
+																					echo'<input type="hidden" name="tipo" value="editar">';
+																					echo'<input type="hidden" name="os"';
+																					echo"value='$os'>";																									
+																					echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																				echo"</form>";
+																				break;	
+																		}
+																	echo"</td>";
+																	
+																	echo"<td>";
+																		echo"<form action='cadastrar.php' method='POST'>";	
+																			echo'<input type="hidden" name="tipo" value="aprovar_os">';
+																			
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";
+																			
+																			echo" <input class='aprovar' type='submit' name='aprovar' value='Aprovar'>";
+																		echo"</form>";
+																	echo"</td>";
+																	
+																	echo"<td>";
+																		echo"<form action='cadastrar.php' method='POST'>";	
+																			echo'<input type="hidden" name="tipo" value="finalizar_os">';
+																			
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";
+																			
+																			echo" <input class='finalizar' type='submit' name='finalizar' value='Fechar'>";
+																		echo"</form>";
+																	echo"</td>";
+																	
+																	echo"<td>";
+																		echo"<form action='gerar_pdf.php' method='POST' target='_blank'>";	
+																			echo'<input type="hidden" name="pdf" value="orcamento">';
+																			
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";
+																			
+																			echo'<input type="hidden" name="equipamento"';
+																			echo"value='$tipo'>";
+																			
+																			
+																			echo" <input class='pdf' type='submit' name='finalizar' value='PDF'>";
+																		echo"</form>";
+																	echo"</td>";
+																	
+																	echo"<td>";
+																		echo"<form action='cadastrar.php' method='POST'>";	
+																			echo'<input type="hidden" name="tipo" value="trocar">';
+																			
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";
+																			
+																			echo'<input type="hidden" name="estado"';
+																			echo"value='$estado'>";
+																			
+																			echo" <input class='trocar' type='submit' value='Trocar'>";
+																		echo"</form>";
+																	echo"</td>";
+																		
+																echo"</tr>";	
+															echo"</table>";								
+														echo"</td>";
+													echo"</tr>";
+												}?>
+
+																<table align="center">
+																	<tr>
+																		<td align='center'>
+																			<nav>
+																				<ul class="pagination">
+																					<li>			
+																						<?php
+																							if($pagina_anterior != 0){ ?>
+																								<a href="pendentes.php?filtro=2&pagina=<?php echo $pagina_anterior; ?>" aria-label="Previous">
+																									<span aria-hidden="true">&laquo;</span>
+																								</a>
+																						<?php }else{ ?>
+																							<span aria-hidden="true">&laquo;</span>
+																						<?php }  ?>
+																					</li>
+																					
+																					<?php 
+																						for($i = 1; $i < $num_paginas + 1; $i++)
+																						{ 
+																							if($i == $pagina)
+																							{ 
+																								echo"<li>";
+																									echo"<a href=pendentes.php?filtro=2&pagina=$i>";
+																										echo"<b>";
+																											echo $i;
+																										echo"</b>";
+																									echo"</a>";
+																								echo"</li>";		
+																							}
+																							else
+																							{
+																								echo"<li>";
+																									echo"<a href=pendentes.php?filtro=2&pagina=$i>";
+																										echo $i;
+																									echo"</a>";
+																								echo"</li>";	
+																							}		
+																						} 
+																					?>
+																		
+																					<li>
+																						<?php
+																							if($pagina_posterior <= $num_paginas){ ?>
+																								<a href="pendentes.php?filtro=2&pagina=<?php echo $pagina_posterior; ?>" aria-label="Previous">
+																									<span aria-hidden="true">&raquo;</span>
+																								</a>
+																							<?php }else{ ?>
+																								<span aria-hidden="true">&raquo;</span>
+																						<?php }  ?>
+																					</li>
+																				</ul>
+																			</nav>
+																		</td>
+																	</tr>
+																</table>  
+														<?php
+												
+												break;	
+												
+											case 3:
+												// Verificar se está sendo passado na URL a página atual, se não atribui 1
+												$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
+												
+												
+												//Verificar a pagina anterior e posterior
+												$pagina_anterior = $pagina - 1;
+												$pagina_posterior = $pagina + 1;
+												
+												// Define a quantidade de registros por páginas
+												$quantidade_pagina = 10;			
+												
+												$ordens_servico = "SELECT * FROM os where estado='pendente' or estado='aguardando'";
+												$resultado_os = mysqli_query($conexao, $ordens_servico);
+												
+												// contar o total de registros
+												$total_registros = mysqli_num_rows($resultado_os);
+												
+												// calcular o número páginas necessárias para apresentar os registros
+												$num_paginas = ceil($total_registros/$quantidade_pagina);
+												
+												//calcular o início da visualização
+												$inicio = ($quantidade_pagina * $pagina) - $quantidade_pagina;
+												
+												
+												$ordens_servico = "SELECT * FROM os where estado='pendente' or estado='aguardando' order by os desc limit $inicio, $quantidade_pagina ";
+												$resultado_os = mysqli_query($conexao, $ordens_servico);
+												while($exibir = mysqli_fetch_assoc($resultado_os))
+												{
+													
+													echo"<tr align='center'>";
+													
+														echo"<td>";
+															echo" ".$exibir['os'];	
+														echo"</td>";
+													
+														echo"<td>";
+																echo" <div class='m-r-10'> ";
+																	echo" ".$exibir['nome'];	
+																echo"</div>";
+														echo"</td>";
+													
+														echo"<td>";
+															echo" ".$exibir['tipo'];	
+														echo"</td>";
+														
+														$os = $exibir['os'];
+														$telefone = $exibir['telefone'];
+														$tipo = $exibir['tipo'];
+														$estado = $exibir['estado'];
+														
+														echo"<td>";
+															echo$estado;
+														echo"</td>";
+														
+														echo"<td>";
+															echo$telefone;
+														echo"</td>";
+														
+														echo"<td>";
+														
+															echo"<table>";
+																echo"<tr>";
+																	
+																	
+																	echo"<td>";
+																		switch($exibir['tipo'])
+																		{
+																			case 'notebook':
+																				echo"<form action='editar_os_notebook.php' method='POST'>";	
+																					echo'<input type="hidden" name="tipo" value="editar">';
+																					echo'<input type="hidden" name="os"';
+																					echo"value='$os'>";																									
+																					echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																				echo"</form>";
+																				break;
+																				
+																			case 'pc':
+																				echo"<form action='editar_os_pc.php' method='POST'>";	
+																					echo'<input type="hidden" name="tipo" value="editar">';
+																					echo'<input type="hidden" name="os"';
+																					echo"value='$os'>";																									
+																					echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																				echo"</form>";
+																				break;
+																				
+																			case 'macbook':
+																				echo"<form action='editar_os_macbook.php' method='POST'>";	
+																					echo'<input type="hidden" name="tipo" value="editar">';
+																					echo'<input type="hidden" name="os"';
+																					echo"value='$os'>";																									
+																					echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																				echo"</form>";
+																				break;
+																				
+																			case 'imac':
+																				echo"<form action='editar_os_imac.php' method='POST'>";	
+																					echo'<input type="hidden" name="tipo" value="editar">';
+																					echo'<input type="hidden" name="os"';
+																					echo"value='$os'>";																									
+																					echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																				echo"</form>";
+																				break;	
+																		}
+																	echo"</td>";
+																	
+																	echo"<td>";
+																		echo"<form action='cadastrar.php' method='POST'>";	
+																			echo'<input type="hidden" name="tipo" value="aprovar_os">';
+																			
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";
+																			
+																			echo" <input class='aprovar' type='submit' name='aprovar' value='Aprovar'>";
+																		echo"</form>";
+																	echo"</td>";
+																	
+																	echo"<td>";
+																		echo"<form action='cadastrar.php' method='POST'>";	
+																			echo'<input type="hidden" name="tipo" value="finalizar_os">';
+																			
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";
+																			
+																			echo" <input class='finalizar' type='submit' name='finalizar' value='Fechar'>";
+																		echo"</form>";
+																	echo"</td>";
+																	
+																	echo"<td>";
+																		echo"<form action='gerar_pdf.php' method='POST' target='_blank'>";	
+																			echo'<input type="hidden" name="pdf" value="orcamento">';
+																			
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";
+																			
+																			echo'<input type="hidden" name="equipamento"';
+																			echo"value='$tipo'>";
+																			
+																			
+																			echo" <input class='pdf' type='submit' name='finalizar' value='PDF'>";
+																		echo"</form>";
+																	echo"</td>";
+																	
+																	echo"<td>";
+																		echo"<form action='cadastrar.php' method='POST'>";	
+																			echo'<input type="hidden" name="tipo" value="trocar">';
+																			
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";
+																			
+																			echo'<input type="hidden" name="estado"';
+																			echo"value='$estado'>";
+																			
+																			echo" <input class='trocar' type='submit' value='Trocar'>";
+																		echo"</form>";
+																	echo"</td>";
+																		
+																echo"</tr>";	
+															echo"</table>";								
+														echo"</td>";
+													echo"</tr>";
+												}?>
+
+																<table align="center">
+																	<tr>
+																		<td align='center'>
+																			<nav>
+																				<ul class="pagination">
+																					<li>			
+																						<?php
+																							if($pagina_anterior != 0){ ?>
+																								<a href="pendentes.php?filtro=3&pagina=<?php echo $pagina_anterior; ?>" aria-label="Previous">
+																									<span aria-hidden="true">&laquo;</span>
+																								</a>
+																						<?php }else{ ?>
+																							<span aria-hidden="true">&laquo;</span>
+																						<?php }  ?>
+																					</li>
+																					
+																					<?php 
+																						for($i = 1; $i < $num_paginas + 1; $i++)
+																						{ 
+																							if($i == $pagina)
+																							{ 
+																								echo"<li>";
+																									echo"<a href=pendentes.php?filtro=3&pagina=$i>";
+																										echo"<b>";
+																											echo $i;
+																										echo"</b>";
+																									echo"</a>";
+																								echo"</li>";		
+																							}
+																							else
+																							{
+																								echo"<li>";
+																									echo"<a href=pendentes.php?filtro=3&pagina=$i>";
+																										echo $i;
+																									echo"</a>";
+																								echo"</li>";	
+																							}		
+																						} 
+																					?>
+																		
+																					<li>
+																						<?php
+																							if($pagina_posterior <= $num_paginas){ ?>
+																								<a href="pendentes.php?filtro=3&pagina=<?php echo $pagina_posterior; ?>" aria-label="Previous">
+																									<span aria-hidden="true">&raquo;</span>
+																								</a>
+																							<?php }else{ ?>
+																								<span aria-hidden="true">&raquo;</span>
+																						<?php }  ?>
+																					</li>
+																				</ul>
+																			</nav>
+																		</td>
+																	</tr>
+																</table>  
+														<?php	
+												break;
+											
+											
+										}
+									}
+									else
+									{
+										// Verificar se está sendo passado na URL a página atual, se não atribui 1
+										$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
+										
+										
+										//Verificar a pagina anterior e posterior
+										$pagina_anterior = $pagina - 1;
+										$pagina_posterior = $pagina + 1;
+										
+										// Define a quantidade de registros por páginas
+										$quantidade_pagina = 10;			
+										
+										$ordens_servico = "SELECT * FROM os where estado='pendente' or estado='aguardando'";
+										$resultado_os = mysqli_query($conexao, $ordens_servico);
+										
+										// contar o total de registros
+										$total_registros = mysqli_num_rows($resultado_os);
+										
+										// calcular o número páginas necessárias para apresentar os registros
+										$num_paginas = ceil($total_registros/$quantidade_pagina);
+										
+										//calcular o início da visualização
+										$inicio = ($quantidade_pagina * $pagina) - $quantidade_pagina;
+										
+										
+										$ordens_servico = "SELECT * FROM os where estado='pendente' or estado='aguardando' order by os desc limit $inicio, $quantidade_pagina ";
+										$resultado_os = mysqli_query($conexao, $ordens_servico);
+										while($exibir = mysqli_fetch_assoc($resultado_os))
+										{
+											
+											echo"<tr align='center'>";
+											
+												echo"<td>";
+													echo" ".$exibir['os'];	
+												echo"</td>";
+											
+												echo"<td>";
+														echo" <div class='m-r-10'> ";
+															echo" ".$exibir['nome'];	
+														echo"</div>";
+												echo"</td>";
+											
+												echo"<td>";
+													echo" ".$exibir['tipo'];	
+												echo"</td>";
+												
+												$os = $exibir['os'];
+												$telefone = $exibir['telefone'];
+												$tipo = $exibir['tipo'];
+												$estado = $exibir['estado'];
+												
+												echo"<td>";
+													echo$estado;
+												echo"</td>";
+												
+												echo"<td>";
+													echo$telefone;
+												echo"</td>";
+												
+												echo"<td>";
+												
+													echo"<table>";
+														echo"<tr>";
+															
+															
+															echo"<td>";
+																switch($exibir['tipo'])
+																{
+																	case 'notebook':
+																		echo"<form action='editar_os_notebook.php' method='POST'>";	
+																			echo'<input type="hidden" name="tipo" value="editar">';
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";																									
+																			echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																		echo"</form>";
+																		break;
+																		
+																	case 'pc':
+																		echo"<form action='editar_os_pc.php' method='POST'>";	
+																			echo'<input type="hidden" name="tipo" value="editar">';
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";																									
+																			echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																		echo"</form>";
+																		break;
+																		
+																	case 'macbook':
+																		echo"<form action='editar_os_macbook.php' method='POST'>";	
+																			echo'<input type="hidden" name="tipo" value="editar">';
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";																									
+																			echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																		echo"</form>";
+																		break;
+																		
+																	case 'imac':
+																		echo"<form action='editar_os_imac.php' method='POST'>";	
+																			echo'<input type="hidden" name="tipo" value="editar">';
+																			echo'<input type="hidden" name="os"';
+																			echo"value='$os'>";																									
+																			echo"<input class='editar' type='submit' name='editar' value='Editar'>";														
+																		echo"</form>";
+																		break;	
+																}
+															echo"</td>";
+															
+															echo"<td>";
+																echo"<form action='cadastrar.php' method='POST'>";	
+																	echo'<input type="hidden" name="tipo" value="aprovar_os">';
+																	
+																	echo'<input type="hidden" name="os"';
+																	echo"value='$os'>";
+																	
+																	echo" <input class='aprovar' type='submit' name='aprovar' value='Aprovar'>";
+																echo"</form>";
+															echo"</td>";
+															
+															echo"<td>";
+																echo"<form action='cadastrar.php' method='POST'>";	
+																	echo'<input type="hidden" name="tipo" value="finalizar_os">';
+																	
+																	echo'<input type="hidden" name="os"';
+																	echo"value='$os'>";
+																	
+																	echo" <input class='finalizar' type='submit' name='finalizar' value='Fechar'>";
+																echo"</form>";
+															echo"</td>";
+															
+															echo"<td>";
+																echo"<form action='gerar_pdf.php' method='POST' target='_blank'>";	
+																	echo'<input type="hidden" name="pdf" value="orcamento">';
+																	
+																	echo'<input type="hidden" name="os"';
+																	echo"value='$os'>";
+																	
+																	echo'<input type="hidden" name="equipamento"';
+																	echo"value='$tipo'>";
+																	
+																	
+																	echo" <input class='pdf' type='submit' name='finalizar' value='PDF'>";
+																echo"</form>";
+															echo"</td>";
+															
+															echo"<td>";
+																echo"<form action='cadastrar.php' method='POST'>";	
+																	echo'<input type="hidden" name="tipo" value="trocar">';
+																	
+																	echo'<input type="hidden" name="os"';
+																	echo"value='$os'>";
+																	
+																	echo'<input type="hidden" name="estado"';
+																	echo"value='$estado'>";
+																	
+																	echo" <input class='trocar' type='submit' value='Trocar'>";
+																echo"</form>";
+															echo"</td>";
+																
+														echo"</tr>";	
+													echo"</table>";								
+												echo"</td>";
+											echo"</tr>";
+										}?>
+
+														<table align="center">
+															<tr>
+																<td align='center'>
+																	<nav>
+																		<ul class="pagination">
+																			<li>			
+																				<?php
+																					if($pagina_anterior != 0){ ?>
+																						<a href="pendentes.php?pagina=<?php echo $pagina_anterior; ?>" aria-label="Previous">
+																							<span aria-hidden="true">&laquo;</span>
+																						</a>
+																				<?php }else{ ?>
+																					<span aria-hidden="true">&laquo;</span>
+																				<?php }  ?>
+																			</li>
+																			
+																			<?php 
+																				for($i = 1; $i < $num_paginas + 1; $i++)
+																				{ 
+																					if($i == $pagina)
+																					{ 
+																						echo"<li>";
+																							echo"<a href=pendentes.php?pagina=$i>";
+																								echo"<b>";
+																									echo $i;
+																								echo"</b>";
+																							echo"</a>";
+																						echo"</li>";		
+																					}
+																					else
+																					{
+																						echo"<li>";
+																							echo"<a href=pendentes.php?pagina=$i>";
+																								echo $i;
+																							echo"</a>";
+																						echo"</li>";	
+																					}		
+																				} 
+																			?>
+																
+																			<li>
+																				<?php
+																					if($pagina_posterior <= $num_paginas){ ?>
+																						<a href="pendentes.php?pagina=<?php echo $pagina_posterior; ?>" aria-label="Previous">
+																							<span aria-hidden="true">&raquo;</span>
+																						</a>
+																					<?php }else{ ?>
+																						<span aria-hidden="true">&raquo;</span>
+																				<?php }  ?>
+																			</li>
+																		</ul>
+																	</nav>
+																</td>
+															</tr>
+														</table>  
+									<?php	
+									}?>
+																
+									 </tbody>
+								</table>
+							</div>
+						</div>			                
                     </div>
                 </div>
             </div>

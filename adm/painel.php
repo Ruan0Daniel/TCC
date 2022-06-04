@@ -218,7 +218,7 @@ $login = $_SESSION['usuario']; // armazena o login do usuário em uma variável
                     <!-- ============================================================== -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="#">
                         <!-- Logo icon -->
                         <b class="logo-icon">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -495,7 +495,8 @@ $login = $_SESSION['usuario']; // armazena o login do usuário em uma variável
                                             <th class="border-top-0">OS</th>
 											<th class="border-top-0">Nome</th>
                                             <th class="border-top-0">Equipamento</th>		
-											<th class="border-top-0">Estado</th>												
+											<th class="border-top-0">Estado</th>	
+											<th class="border-top-0">Telefone</th>											
 											<th class="border-top-0">Ações</th>
 											
                                         </tr>
@@ -556,11 +557,16 @@ $login = $_SESSION['usuario']; // armazena o login do usuário em uma variável
 													echo"</td>";
 													
 													$os = $exibir['os'];
+													$telefone = $exibir['telefone'];
 													$tipo = $exibir['tipo'];
 													$estado = $exibir['estado'];
 													
 													echo"<td>";
 														echo$estado;
+													echo"</td>";
+													
+													echo"<td>";
+														echo$telefone;
 													echo"</td>";
 													
 													echo"<td>";
@@ -687,11 +693,16 @@ $login = $_SESSION['usuario']; // armazena o login do usuário em uma variável
 														echo"</td>";
 											
 														$os = $exibir['os'];
+														$telefone = $exibir['telefone'];
 														$tipo = $exibir['tipo'];
 														$estado = $exibir['estado'];
 											
 														echo"<td>";
 															echo$estado;
+														echo"</td>";
+														
+														echo"<td>";
+															echo$telefone;
 														echo"</td>";
 											
 														echo"<td>";
@@ -873,11 +884,16 @@ $login = $_SESSION['usuario']; // armazena o login do usuário em uma variável
 														echo"</td>";
 											
 														$os = $exibir['os'];
+														$telefone = $exibir['telefone'];
 														$tipo = $exibir['tipo'];
 														$estado = $exibir['estado'];
 											
 														echo"<td>";
 															echo$estado;
+														echo"</td>";
+														
+														echo"<td>";
+															echo$telefone;
 														echo"</td>";
 											
 														echo"<td>";
@@ -1048,18 +1064,23 @@ $login = $_SESSION['usuario']; // armazena o login do usuário em uma variável
 														echo"</td>";
 											
 														$os = $exibir['os'];
+														$telefone = $exibir['telefone'];
 														$tipo = $exibir['tipo'];
 														$estado = $exibir['estado'];
 											
 														echo"<td>";
 															echo$estado;
 														echo"</td>";
+														
+														echo"<td>";
+															echo$telefone;
+														echo"</td>";
 											
 														echo"<td>";
 															echo"<table>";
 																echo"<tr>";
 																	echo"<td>";
-																		echo"<form action='gerar_pdf.php' method='POST'>";	
+																		echo"<form action='gerar_pdf.php' method='POST' target='_blank'>";	
 																			echo'<input type="hidden" name="pdf" value="termo_saida">';
 																			echo'<input type="hidden" name="os"';
 																			echo"value='$os'>";
@@ -1072,7 +1093,7 @@ $login = $_SESSION['usuario']; // armazena o login do usuário em uma variável
 																	echo"<td>";
 																					
 																	echo"<td>";
-																		echo"<form action='visualizar_os.php' method='POST'>";	
+																		echo"<form action='visualizar_os.php' method='POST' >";	
 																			echo'<input type="hidden" name="tipo" value="finalizar_os">';
 																			echo'<input type="hidden" name="os"';
 																			echo"value='$os'>";
@@ -1157,7 +1178,7 @@ $login = $_SESSION['usuario']; // armazena o login do usuário em uma variável
 										// Define a quantidade de registros por páginas
 										$quantidade_pagina = 10;			
 										
-										$ordens_servico = "SELECT * FROM os where estado <> 'finalizado' and estado <> 'pendente'";
+										$ordens_servico = "SELECT * FROM os where estado <> 'finalizado' and estado <> 'pendente' and estado <> 'aguardando'";
 										$resultado_os = mysqli_query($conexao, $ordens_servico);
 										
 										// contar o total de registros
@@ -1170,7 +1191,7 @@ $login = $_SESSION['usuario']; // armazena o login do usuário em uma variável
 										$inicio = ($quantidade_pagina * $pagina) - $quantidade_pagina;
 										
 										
-										$ordens_servico = "SELECT * FROM os where estado <> 'finalizado' and estado <> 'pendente' order by os desc limit $inicio, $quantidade_pagina";
+										$ordens_servico = "SELECT * FROM os where estado <> 'finalizado' and estado <> 'pendente' and estado <> 'aguardando' order by os desc limit $inicio, $quantidade_pagina";
 										$resultado_os = mysqli_query($conexao, $ordens_servico);
 										while($exibir = mysqli_fetch_assoc($resultado_os))
 										{
@@ -1191,11 +1212,16 @@ $login = $_SESSION['usuario']; // armazena o login do usuário em uma variável
 												echo"</td>";
 												
 												$os = $exibir['os'];
+												$telefone = $exibir['telefone'];
 												$tipo = $exibir['tipo'];
 												$estado = $exibir['estado'];
 												
 												echo"<td>";
 													echo$estado;
+												echo"</td>";
+												
+												echo"<td>";
+													echo$telefone;
 												echo"</td>";
 												
 												echo"<td>";

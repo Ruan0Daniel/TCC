@@ -395,6 +395,10 @@
 											<td>
 												CPF: <input type=text name=cpf>
 											</td>
+											
+											<td valign='top'>
+												Telefone: <input type=text name=telefone>
+											</td>
 										</tr>
 									</table> <br> <br>
 					

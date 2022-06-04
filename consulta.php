@@ -97,6 +97,8 @@ https://templatemo.com/tm-503-newline
 												echo "<b> Carregador: </b>".$exibir['carregador']."<br>";
 												echo "<b> Acessórios: </b>".$exibir['acessorios']."<br>";
 												echo "<b> Problema: </b>".$exibir['problema']."<br> <br> <br>";
+												$descricao_problema = $exibir['descricao_problema'];
+												$descricao_orcamento = $exibir['descricao_orcamento'];
 											}
 											break;
 														
@@ -116,6 +118,7 @@ https://templatemo.com/tm-503-newline
 												echo "<b> Gabinete: </b>".$exibir['gabinete']."<br>";
 												echo "<b> Acessórios: </b>".$exibir['acessorios']."<br>";
 												echo "<b> Problema: </b>".$exibir['problema']."<br> <br> <br>";
+												$descricao_problema = $exibir['descricao_problema'];
 											}
 											break;
 															
@@ -133,7 +136,8 @@ https://templatemo.com/tm-503-newline
 												echo "<b> Tamanho da tela: </b>".$exibir['tamanho_tela']."<br>";
 												echo "<b> Carregador: </b>".$exibir['carregador']."<br>";
 												echo "<b> Acessórios: </b>".$exibir['acessorios']."<br>";
-												echo "<b> Problema: </b>".$exibir['problema']."<br> <br> <br>";					
+												echo "<b> Problema: </b>".$exibir['problema']."<br> <br> <br>";	
+												$descricao_problema = $exibir['descricao_problema'];												
 											}												
 											break;
 														
@@ -149,6 +153,7 @@ https://templatemo.com/tm-503-newline
 												echo "<b> Placa de Vídeo: </b>".$exibir['placa_video']."<br>";
 												echo "<b> Acessórios: </b>".$exibir['acessorios']."<br>";
 												echo "<b> Problema: </b>".$exibir['problema']."<br> <br> <br>";
+												$descricao_problema = $exibir['descricao_problema'];
 											}
 											break;					
 									}
@@ -177,6 +182,27 @@ https://templatemo.com/tm-503-newline
 									
 									echo"<hr>";
 								}
+								
+								
+								echo"<br> <br>";
+								
+								echo"<table>";
+										echo"<tr>";
+											echo"<td align='left'>";
+												echo"<b>Descrição do problema encontrado:</b> " .$descricao_problema;
+											echo"</td>";
+										echo"</tr>";		
+								echo"</table>";
+								
+								echo"<br>";
+								
+								echo"<table>";
+										echo"<tr>";
+											echo"<td align='left'>";
+												echo"<b>Descrição do orçamento:</b> " .$descricao_orcamento;
+											echo"</td>";
+										echo"</tr>";		
+								echo"</table>";
 								
 								
 								

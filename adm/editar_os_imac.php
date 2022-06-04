@@ -405,6 +405,8 @@
 										{
 											$nome = $exibir['nome'];
 											$cpf = $exibir['cpf'];	
+											$telefone = $exibir['telefone'];	
+											$estado= $exibir['estado'];	
 											$valor_final= $exibir['valor_final'];											
 										}
 									
@@ -462,6 +464,10 @@
 													echo"<td>";
 														echo"CPF: <input type=text name=cpf value='$cpf'>";
 													echo"</td>";
+													
+													echo"<td>";
+														echo"Telefone: <input type=text name=telefone value='$telefone'>";
+													echo"</td>";
 												echo"</tr>";
 											echo"</table> <br> <br>";
 
@@ -513,12 +519,8 @@
 											echo"<textarea rows=4 cols=40 name=descricao_orcamento> $descricao_orcamento </textarea> <br> <br>";
 										 
 											echo"Valor do Orçamento: <input type='text' name='valor_orcamento' value=$valor_orcamento> <br>";		
-											echo"Valor final: <input type='text' name='valor_final' value=$valor_final> <br>";	
-											echo"Status: <select name='status'>";
-												echo"<option $check3> </option>";
-												echo"<option $check1>Aprovado</option>";
-												echo"<option $check2>Recusado</option>";	
-											echo"</select> <br>";	
+											echo"Valor final: <input type='text' name='valor_final' value=$valor_final> <br><br>";	
+											echo"Status: <b>".	$estado. "</b>";
 				
 											echo"<hr>";
 	

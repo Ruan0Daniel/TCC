@@ -399,7 +399,8 @@ $os= isset($_POST['os']) ? $_POST['os'] : "";
 												{
 													echo "<b> Ordem de Serviço: </b>".$exibir['os']."&nbsp &nbsp";
 													echo "<b> Nome: </b>".$exibir['nome']."&nbsp &nbsp ";
-													echo "<b> CPF: </b>".$exibir['cpf']."<br> <br> <br>";
+													echo "<b> CPF: </b>".$exibir['cpf']."&nbsp &nbsp";
+													echo "<b> Telefone: </b>".$exibir['telefone']."<br> <br> <br>";
 												}	
 											}
 										

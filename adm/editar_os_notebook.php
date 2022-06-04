@@ -325,6 +325,7 @@
 							<ul>
 								<li> <a href="pendentes.php"> Orçamentos Pendentes </a> </li>
 								<li> <a href="ordens_servico.php"> Ordens de Serviço </a> </li>
+								<li> <a href="gerenciar_usuarios.php"> Gerenciar Usuarios </a> </li>
 							</ul> 
 							
                         </li> <?php } ?>
@@ -410,7 +411,9 @@
 									{
 										$nome = $exibir['nome'];
 										$cpf = $exibir['cpf'];
-										$valor_final= $exibir['valor_final'];										
+										$telefone = $exibir['telefone'];
+										$valor_final= $exibir['valor_final'];
+										$status= $exibir['estado'];										
 									}
 									
 									$consulta = mysqli_query($conexao,"select * from os_notebook where os='$os'");
@@ -429,7 +432,7 @@
 										$descricao_problema= $exibir['descricao_problema'];
 										$descricao_orcamento= $exibir['descricao_orcamento'];
 										$valor_orcamento= $exibir['valor_orcamento'];
-										$status= $exibir['status'];	
+											
 									}
 									
 									if($status == 'Aprovado')
@@ -469,6 +472,10 @@
 												echo"<td valign='top'>";
 													echo"CPF: <input type=text name=cpf value='$cpf'>";
 												echo"</td>";
+												
+												echo"<td valign='top'>";
+													echo"Telefone: <input type=text name=telefone value='$telefone'>";
+												echo"</td>";
 											echo"</tr>";
 											
 											
@@ -498,7 +505,7 @@
 
 										echo"<b> Relato do Cliente  </b>";
 										echo"<hr>";
-										echo"<textarea rows=6 cols=40 name=problema> $problema </textarea> <br>";
+										echo"<textarea rows=6 cols=40 name=problema> $problema </textarea> <br> <br>";
 											
 										echo"<b> Orçamento  </b>";
 										echo"<hr>";
@@ -510,13 +517,8 @@
 										echo"<textarea rows=4 cols=40 name=descricao_orcamento> $descricao_orcamento </textarea> <br> <br>";
 										 
 										echo"Valor do Orçamento: <input type='text' name='valor_orcamento' value=$valor_orcamento> <br>";		
-										echo"Valor final: <input type='text' name='valor_final' value=$valor_final> <br>";	
-										echo"Status: <select name='status'>";
-												echo"<option $check3> </option>";
-												echo"<option $check1>Aprovado</option>";
-												echo"<option $check2>Recusado</option>";	
-											echo"</select> <br>";		
-										
+										echo"Valor final: <input type='text' name='valor_final' value=$valor_final> <br> <br>";	
+										echo"Status: <b>".	$status. "</b>";
 											
 										echo"<hr>";
 		

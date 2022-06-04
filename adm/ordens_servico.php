@@ -478,8 +478,8 @@ $login = $_SESSION['usuario'];
                                         <h4 class="card-title">Ordens de Serviço</h4>
                                         <h5 class="card-subtitle">Visão geral dos serviços</h5>
                                     </div>
-                                    <div class="ms-auto">
-                                        <div class="dl">
+                                   <div class="ms-auto">
+                                        <!-- <div class="dl">
 											<form name="organizador" action="cadastrar.php" method="POST">
 												<select name='options' class="form-select shadow-none" onchange="this.form.submit()">
 													<option value="0">Monthly</option>
@@ -488,10 +488,10 @@ $login = $_SESSION['usuario'];
 													<option value="3">Yearly</option>
 												</select>
 											</form>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
-								<hr>
+								
                                 <!-- title -->
                             </div>
                             <div class="table-responsive">
@@ -503,7 +503,8 @@ $login = $_SESSION['usuario'];
 											<th class="border-top-0">Nome</th>
                                             <th class="border-top-0">Equipamento</th>		
 											<th class="border-top-0">Estado</th>	
-											<th class="border-top-0">Valor</th>	
+											<th class="border-top-0">Telefone</th>
+											<th class="border-top-0">Valor</th>											
 											<th class="border-top-0">Ações</th>
 											
                                         </tr>
@@ -561,6 +562,7 @@ $login = $_SESSION['usuario'];
 											echo"</td>";
 											
 											$os = $exibir['os'];
+											$telefone = $exibir['telefone'];
 											$tipo = $exibir['tipo'];
 											$estado = $exibir['estado'];
 											$valor_final = $exibir['valor_final'];
@@ -569,6 +571,10 @@ $login = $_SESSION['usuario'];
 											
 											echo"<td>";
 												echo$estado;
+											echo"</td>";
+											
+											echo"<td>";
+												echo$telefone;
 											echo"</td>";
 											
 											

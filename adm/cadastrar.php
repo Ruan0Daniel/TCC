@@ -8,6 +8,7 @@ switch ($tipo) {
     case 'notebook':	// Caso a variável seja 'notebook' essa case coleta as informações e insere a OS de Notebook no banco de dados
 		$nome= isset($_POST['nome']) ? $_POST['nome'] : "";
 		$cpf= isset($_POST['cpf']) ? $_POST['cpf'] : "";
+		$telefone= isset($_POST['telefone']) ? $_POST['telefone'] : "";
 		$marca= isset($_POST['marca']) ? $_POST['marca'] : "";
 		$modelo= isset($_POST['modelo']) ? $_POST['modelo'] : "";
 		$processador= isset($_POST['processador']) ? $_POST['processador'] : "";
@@ -29,7 +30,7 @@ switch ($tipo) {
 		
 		$os = $os + 1;	// o número da OS vai ser sempre o número da OS anterior + 1
 		
-		$sql = "insert into os (os, nome, cpf, tipo) values ('$os', '$nome', '$cpf', '$tipo')";
+		$sql = "insert into os (os, nome, cpf, telefone, tipo) values ('$os', '$nome', '$cpf' , '$telefone', '$tipo')";
 
 		$resultado = $conexao->query($sql) or trigger_error($conexao->error);
 		
@@ -55,6 +56,7 @@ switch ($tipo) {
 	case 'pc':	// Caso a variável seja 'pc' essa case coleta as informações e insere a OS de PC no banco de dados
 		$nome= isset($_POST['nome']) ? $_POST['nome'] : "";
 		$cpf= isset($_POST['cpf']) ? $_POST['cpf'] : "";
+		$telefone= isset($_POST['telefone']) ? $_POST['telefone'] : "";
 		$pc= isset($_POST['pc']) ? $_POST['pc'] : "";
 		$placa_mae= isset($_POST['placa_mae']) ? $_POST['placa_mae'] : "";
 		$processador= isset($_POST['processador']) ? $_POST['processador'] : "";
@@ -76,7 +78,8 @@ switch ($tipo) {
 		
 		$os = $os + 1; // o número da OS vai ser sempre o número da OS anterior + 1
 		
-		$sql = "insert into os (os, nome, cpf, tipo) values ('$os', '$nome', '$cpf', '$tipo')";
+		$sql = "insert into os (os, nome, cpf, telefone, tipo) values ('$os', '$nome', '$cpf' , '$telefone', '$tipo')";
+		
 
 		$resultado = $conexao->query($sql) or trigger_error($conexao->error);
 	
@@ -101,6 +104,7 @@ switch ($tipo) {
 	case 'macbook':
 		$nome= isset($_POST['nome']) ? $_POST['nome'] : "";
 		$cpf= isset($_POST['cpf']) ? $_POST['cpf'] : "";
+		$telefone= isset($_POST['telefone']) ? $_POST['telefone'] : "";
 		$macbook= isset($_POST['macbook']) ? $_POST['macbook'] : "";
 		$modelo= isset($_POST['modelo']) ? $_POST['modelo'] : "";
 		$ano= isset($_POST['ano']) ? $_POST['ano'] : "";
@@ -124,7 +128,7 @@ switch ($tipo) {
 		
 		$os = $os + 1; // o número da OS vai ser sempre o número da OS anterior + 1
 		
-		$sql = "insert into os (os, nome, cpf, tipo) values ('$os', '$nome', '$cpf', '$tipo')";
+		$sql = "insert into os (os, nome, cpf, telefone, tipo) values ('$os', '$nome', '$cpf' , '$telefone', '$tipo')";
 
 		$resultado = $conexao->query($sql) or trigger_error($conexao->error);
 		
@@ -148,6 +152,7 @@ switch ($tipo) {
 	case 'imac':
 		$nome= isset($_POST['nome']) ? $_POST['nome'] : "";
 		$cpf= isset($_POST['cpf']) ? $_POST['cpf'] : "";
+		$telefone= isset($_POST['telefone']) ? $_POST['telefone'] : "";
 		$modelo= isset($_POST['modelo']) ? $_POST['modelo'] : "";
 		$ano= isset($_POST['ano']) ? $_POST['ano'] : "";
 		$tamanho= isset($_POST['tamanho']) ? $_POST['tamanho'] : "";
@@ -169,7 +174,7 @@ switch ($tipo) {
 		
 		$os = $os + 1;
 		
-		$sql = "insert into os (os, nome, cpf, tipo) values ('$os', '$nome', '$cpf', '$tipo')";
+		$sql = "insert into os (os, nome, cpf, telefone, tipo) values ('$os', '$nome', '$cpf' , '$telefone', '$tipo')";
 
 		$resultado = $conexao->query($sql) or trigger_error($conexao->error);  
 		
@@ -273,6 +278,7 @@ switch ($tipo) {
 			case 'notebook':
 				$nome= isset($_POST['nome']) ? $_POST['nome'] : "";
 				$cpf= isset($_POST['cpf']) ? $_POST['cpf'] : "";
+				$telefone= isset($_POST['telefone']) ? $_POST['telefone'] : "";
 				$marca= isset($_POST['marca']) ? $_POST['marca'] : "";
 				$modelo= isset($_POST['modelo']) ? $_POST['modelo'] : "";
 				$processador= isset($_POST['processador']) ? $_POST['processador'] : "";
@@ -297,7 +303,7 @@ switch ($tipo) {
 				
 				$resultado = $conexao->query($sql) or trigger_error($conexao->error);
 				
-				$sql = "UPDATE `os` SET `nome`='$nome',`cpf`='$cpf',`valor_final`='$valor_final' WHERE os='$os'";
+				$sql = "UPDATE `os` SET `nome`='$nome',`cpf`='$cpf',`telefone`='$telefone',`valor_final`='$valor_final' WHERE os='$os'";
 				
 				$resultado = $conexao->query($sql) or trigger_error($conexao->error);
 				
@@ -320,6 +326,7 @@ switch ($tipo) {
 			case 'pc':
 				$nome= isset($_POST['nome']) ? $_POST['nome'] : "";
 				$cpf= isset($_POST['cpf']) ? $_POST['cpf'] : "";
+				$telefone= isset($_POST['telefone']) ? $_POST['telefone'] : "";
 				$pc= isset($_POST['pc']) ? $_POST['pc'] : "";
 				$placa_mae= isset($_POST['placa_mae']) ? $_POST['placa_mae'] : "";
 				$processador= isset($_POST['processador']) ? $_POST['processador'] : "";
@@ -343,7 +350,7 @@ switch ($tipo) {
 				
 				$resultado = $conexao->query($sql) or trigger_error($conexao->error);
 				
-				$sql = "UPDATE `os` SET `nome`='$nome',`cpf`='$cpf',`valor_final`='$valor_final' WHERE os='$os'";
+				$sql = "UPDATE `os` SET `nome`='$nome',`cpf`='$cpf',`telefone`='$telefone',`valor_final`='$valor_final' WHERE os='$os'";
 				
 				$resultado = $conexao->query($sql) or trigger_error($conexao->error);
 				
@@ -366,6 +373,7 @@ switch ($tipo) {
 			case 'macbook':
 				$nome= isset($_POST['nome']) ? $_POST['nome'] : "";
 				$cpf= isset($_POST['cpf']) ? $_POST['cpf'] : "";
+				$telefone= isset($_POST['telefone']) ? $_POST['telefone'] : "";
 				$macbook= isset($_POST['macbook']) ? $_POST['macbook'] : "";
 				$modelo= isset($_POST['modelo']) ? $_POST['modelo'] : "";
 				$ano= isset($_POST['ano']) ? $_POST['ano'] : "";
@@ -391,7 +399,7 @@ switch ($tipo) {
 				
 				$resultado = $conexao->query($sql) or trigger_error($conexao->error);
 				
-				$sql = "UPDATE `os` SET `nome`='$nome',`cpf`='$cpf',`valor_final`='$valor_final' WHERE os='$os'";
+				$sql = "UPDATE `os` SET `nome`='$nome',`cpf`='$cpf',`telefone`='$telefone',`valor_final`='$valor_final' WHERE os='$os'";
 				
 				$resultado = $conexao->query($sql) or trigger_error($conexao->error);
 				
@@ -413,6 +421,7 @@ switch ($tipo) {
 			case 'imac':
 				$nome= isset($_POST['nome']) ? $_POST['nome'] : "";
 				$cpf= isset($_POST['cpf']) ? $_POST['cpf'] : "";
+				$telefone= isset($_POST['telefone']) ? $_POST['telefone'] : "";
 				$modelo= isset($_POST['modelo']) ? $_POST['modelo'] : "";
 				$ano= isset($_POST['ano']) ? $_POST['ano'] : "";
 				$tamanho= isset($_POST['tamanho']) ? $_POST['tamanho'] : "";
@@ -436,7 +445,7 @@ switch ($tipo) {
 				
 				$resultado = $conexao->query($sql) or trigger_error($conexao->error);
 				
-				$sql = "UPDATE `os` SET `nome`='$nome',`cpf`='$cpf',`valor_final`='$valor_final' WHERE os='$os'";
+				$sql = "UPDATE `os` SET `nome`='$nome',`cpf`='$cpf',`telefone`='$telefone',`valor_final`='$valor_final' WHERE os='$os'";
 				
 				$resultado = $conexao->query($sql) or trigger_error($conexao->error);
 				
@@ -574,6 +583,40 @@ switch ($tipo) {
 
 		$conexao ->close();
         break;
+		
+		
+		case 'trocar':
+			$os= isset($_POST['os']) ? $_POST['os'] : "";
+			$estado= isset($_POST['estado']) ? $_POST['estado'] : "";
+			
+			if ($estado == "pendente")
+			{
+				$sql="update os set estado='aguardando' where os='$os'";
+				$resultado = $conexao->query($sql) or trigger_error($conexao->error);	
+			}
+			else
+			{
+				$sql="update os set estado='pendente' where os='$os'";
+				$resultado = $conexao->query($sql) or trigger_error($conexao->error);	
+			}
+		
+		
+		
+		if($resultado==true)
+				{
+					//echo "Cadastro da OS realizado com sucesso";
+					//echo '<script>alert("OS cadastrada com sucesso");</script>';
+					header("Location: pendentes.php");
+					
+				}
+				else 
+				{
+					echo "erro: A os NÃO foi fechada corretamente.";	
+				}
+
+		$conexao ->close();
+        break;
+		
 		
 		case 'editar_usuario':
 			$id= isset($_POST['id']) ? $_POST['id'] : "";
